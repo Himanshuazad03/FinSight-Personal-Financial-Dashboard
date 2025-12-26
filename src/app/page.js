@@ -1,65 +1,211 @@
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import HeroSection from "@/components/hero";
+import {
+  statsData,
+  howItWorksData,
+  testimonialsData,
+  featuresData,
+} from "@/data/landing";
+import Reveal from "@/components/Revel";
+import { Card } from "@/components/ui/card";
+import { CardContent } from "@/components/ui/card";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <>
+      <div className=" min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+        <HeroSection />
+
+        <Reveal delay={0.2}>
+          <section className="py-14 bg-white">
+            <div className="container mx-auto px-4">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                {statsData.map((item, index) => (
+                  <div key={index} className="text-center">
+                    <div className="text-4xl font-bold text-blue-600 mb-2">
+                      {item.value}
+                    </div>
+                    <div className="text-gray-600">{item.label}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        </Reveal>
+
+        <Reveal delay={0.2}>
+          <section id="features" className="py-24">
+            <div className="container mx-auto px-4">
+              {/* Section Header */}
+              <div className="max-w-3xl mx-auto text-center mb-16">
+                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight mb-4">
+                  Core features designed for practical financial management
+                </h2>
+                <p className="text-gray-600 text-lg">
+                  Each feature is thoughtfully built to solve real-world
+                  challenges in tracking expenses, managing budgets, and gaining
+                  actionable insights.
+                </p>
+              </div>
+
+              {/* Features Grid */}
+              <Reveal delay={0.1}>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {featuresData.map((feature, index) => (
+                    <Card
+                      key={index}
+                      className="p-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+                    >
+                      <CardContent className="space-y-4 pt-4">
+                        {/* Icon */}
+                        <div className="flex items-center justify-center h-12 w-12 rounded-lg bg-blue-50">
+                          {feature.icon}
+                        </div>
+
+                        {/* Title */}
+                        <h3 className="text-xl font-semibold text-gray-900">
+                          {feature.title}
+                        </h3>
+
+                        {/* Description */}
+                        <p className="text-gray-600 leading-relaxed">
+                          {feature.description}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </Reveal>
+            </div>
+          </section>
+        </Reveal>
+
+        <Reveal delay={0.2}>
+          <section className="py-24 bg-white">
+            <div className="container mx-auto px-4">
+              {/* Section Header */}
+              <div className="max-w-3xl mx-auto text-center mb-20">
+                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight mb-4">
+                  How FinSight works
+                </h2>
+                <p className="text-gray-600 text-lg">
+                  A simple, intuitive flow designed to help you understand and
+                  improve your financial habits without complexity.
+                </p>
+              </div>
+
+              {/* Steps */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                {howItWorksData.map((step, index) => (
+                  <div
+                    key={index}
+                    className="text-center px-6 transition-transform duration-300 hover:-translate-y-1"
+                  >
+                    {/* Icon container */}
+                    <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-6">
+                      {step.icon}
+                    </div>
+
+                    {/* Step title */}
+                    <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                      {step.title}
+                    </h3>
+
+                    {/* Step description */}
+                    <p className="text-gray-600 leading-relaxed">
+                      {step.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        </Reveal>
+
+        <Reveal delay={0.2}>
+          <section className="py-24">
+            <div className="container mx-auto px-4">
+              {/* Section Header */}
+              <div className="max-w-3xl mx-auto text-center mb-16">
+                <h2 className="text-3xl md:text-4xl font-semibold tracking-tight mb-4">
+                  Feedback from early users
+                </h2>
+                <p className="text-gray-600 text-lg">
+                  Honest feedback from peers who explored{" "}
+                  <span className="black-gradient">FinSight</span> during
+                  development and testing.
+                </p>
+              </div>
+
+              {/* Testimonials Grid */}
+              <Reveal delay={0.1}>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                  {testimonialsData.map((testimonial, index) => (
+                    <div
+                      key={index}
+                      className="bg-white border rounded-xl p-6 text-center transition-shadow duration-300 hover:shadow-md"
+                    >
+                      {/* Avatar */}
+                      <img
+                        src={testimonial.image}
+                        alt={testimonial.name}
+                        className="w-12 h-12 rounded-full object-cover mx-auto mb-4"
+                      />
+
+                      {/* Name */}
+                      <p className="font-medium text-gray-900 mb-3">
+                        {testimonial.name}
+                      </p>
+
+                      {/* Quote */}
+                      <p className="text-gray-700 leading-relaxed">
+                        “{testimonial.quote}”
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </Reveal>
+            </div>
+          </section>
+        </Reveal>
+
+        <Reveal delay={0.2}>
+          <section className="py-16 bg-slate-50 border-t">
+            <div className="container mx-auto px-4">
+              <div className="max-w-4xl mx-auto text-center">
+                <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight mb-6 text-gray-900">
+                  Ready to explore your financial data?
+                </h2>
+
+                <p className="text-md text-gray-600 max-w-2xl mx-auto mb-9">
+                  Review your spending, budgets, and insights in a clear
+                  dashboard designed for real-world financial management.
+                </p>
+
+                <div className="flex flex-col sm:flex-row justify-center gap-4 mb-4">
+                  <Link href="/dashboard">
+                    <Button size="lg" className="px-10">
+                      Open Dashboard
+                    </Button>
+                  </Link>
+
+                  <Link href="/#features">
+                    <Button size="lg" variant="outline" className="px-10">
+                      Explore Features
+                    </Button>
+                  </Link>
+                </div>
+
+                <p className="text-sm text-gray-500">
+                  Demo-friendly • Secure authentication • Built as a full-stack
+                  project
+                </p>
+              </div>
+            </div>
+          </section>
+        </Reveal>
+      </div>
+    </>
   );
 }
