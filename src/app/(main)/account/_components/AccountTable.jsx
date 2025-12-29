@@ -52,6 +52,7 @@ import {
   PaginationPrevious,
   PaginationEllipsis,
 } from "@/components/ui/pagination";
+import { useRouter } from "next/navigation";
 
 const RECURRING_TYPES = {
   DAILY: "Daily",
@@ -61,6 +62,7 @@ const RECURRING_TYPES = {
 };
 
 const AccountTable = ({ accountId }) => {
+  const router = useRouter();
   const [selectedId, setSelectedId] = useState([]);
   const [sortConfig, setSortConfig] = useState({
     field: "date",
@@ -216,6 +218,19 @@ const AccountTable = ({ accountId }) => {
     }
 
     Deletefn(selectedId);
+
+    setTransactions((prev) =>
+      prev.filter((tx) => !selectedId.includes(tx._id))
+    );
+
+    setSelectedId([]);
+    setSearch("");
+  };
+
+  const handleSingleDelete = async (id) => {
+    await Deletefn([id]); // MUST be array
+
+    setTransactions((prev) => prev.filter((tx) => tx._id !== id));
   };
 
   useEffect(() => {
@@ -230,7 +245,7 @@ const AccountTable = ({ accountId }) => {
     }
   }, [error]);
   return (
-    <div className="space-y-2 px-0 lg:px-10">
+    <div className="space-y-2 px-0 lg:px-8">
       {transactionLoading && (
         <BarLoader className="mt-4" width={"100%"} color="#9333ea" />
       )}
@@ -436,10 +451,16 @@ const AccountTable = ({ accountId }) => {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent>
-                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => router.push(
+                            `/transaction/create?edit=${transaction._id}`
+                          )}
+                        >
+                          Edit
+                        </DropdownMenuItem>
                         <DropdownMenuItem
                           className="text-red-600"
-                          onClick={() => Deletefn(transaction._id)}
+                          onClick={() => handleSingleDelete(transaction._id)}
                         >
                           Delete
                         </DropdownMenuItem>

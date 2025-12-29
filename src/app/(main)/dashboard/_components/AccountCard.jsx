@@ -16,6 +16,7 @@ import { toast } from "sonner";
 
 
 const AccountCard = ({ account }) => {
+
   const { name, type, balance, isDefault, _id } = account;
 
   const {

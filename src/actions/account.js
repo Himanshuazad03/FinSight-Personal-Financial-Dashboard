@@ -30,28 +30,27 @@ export const updateDefaultAccount = async (accountId) => {
   }
 };
 
-export async function getAccount(accountId) {
-  await connectDB();
-
-  const { userId } = await auth();
-  if (!userId) throw new Error("Unauthorized");
-
-  const user = await User.findOne({ clerkUserId: userId });
-  if (!user) throw new Error("User not found");
-
-  const account = await Account.findOne({
-    _id: accountId,
-    userId: user._id,
-  }).lean();
-
-  if (!account) return null;
-
-  const transactionCount = await Transaction.countDocuments({
-    accountId: account._id,
-  });
-
-  return {
-    ...serializeTransaction(account),
-    _count: { transactions: transactionCount },
-  };
+export async function getAccountWithTransactions(accountId) {
+  try {
+    await connectDB();
+    const { userId } = await auth();
+    if (!userId) throw new Error("Unauthorized");
+    const user = await User.findOne({ clerkUserId: userId }).lean();
+    if (!user) throw new Error("User not found");
+    const account = await Account.findOne({ _id: accountId, userId: user._id });
+    const transactions = await Transaction.find({
+      accountId: account._id,
+    }).lean();
+    if (!account) return null;
+    const transactionCount = await Transaction.countDocuments({
+      accountId: account._id,
+    });
+    return {
+      ...serializeTransaction(account),
+      transactions: transactions.map(serializeTransaction),
+      _count: { transactions: transactionCount },
+    };
+  } catch (error) {
+    throw new Error(error.message);
+  }
 }

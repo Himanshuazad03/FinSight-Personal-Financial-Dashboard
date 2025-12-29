@@ -19,6 +19,7 @@ const serializeTransaction = (obj) => {
     balance: toNumber(obj.balance), // number ✅
 
     isRecurring: Boolean(obj.isRecurring),
+    isDefault: Boolean(obj.isDefault),
 
     userId: obj.userId?.toString(),
     accountId: obj.accountId?.toString(), // 🔥 FIXED

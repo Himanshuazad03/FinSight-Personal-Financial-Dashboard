@@ -6,8 +6,8 @@ import { connectDB } from "@/dbConfig/db";
 import Account from "@/models/Account";
 import Transaction from "@/models/Transaction";
 
-const ACCOUNT_ID = new mongoose.Types.ObjectId("694c48db56d46267b504871e");
-const USER_ID = new mongoose.Types.ObjectId("694bef3d903e4a7c0dfa2b40");
+const ACCOUNT_ID = new mongoose.Types.ObjectId("6952c4fa7118cdec12a6eb4c");
+const USER_ID = new mongoose.Types.ObjectId("69504fee1464b605517fee62");
 
 // Categories with typical amount ranges
 const CATEGORIES = {

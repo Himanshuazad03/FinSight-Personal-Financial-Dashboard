@@ -39,6 +39,11 @@ export const createAccount = async (data) => {
       userId: user._id,
     });
 
+    await User.findByIdAndUpdate(
+      user._id,
+      { $addToSet: { accounts: newAccount._id } } // prevents duplicates
+    );
+
     const serializedAccount = serializeTransaction(newAccount);
 
     revalidatePath("/dashboard");

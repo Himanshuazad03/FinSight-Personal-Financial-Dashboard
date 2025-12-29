@@ -15,6 +15,16 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
     },
+    accounts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Account",
+      },
+    ],
+    budget: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Budget",
+    },
     imageUrl: {
       type: String,
     },

@@ -4,13 +4,34 @@ import { Plus } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { getAllAccounts } from "@/actions/dashboard";
 import AccountCard from "./_components/AccountCard";
+import { getCurrentBudget } from "@/actions/budget";
+import BudgetCard from "./_components/BudgetCard";
+import { dashboardTransaction } from "@/actions/transaction";
+import { DashboardOverview } from "./_components/DashboardOverview";
+
 
 const page = async () => {
   const result = await getAllAccounts();
+  const transactions = await dashboardTransaction();
   const accounts = result?.data ?? [];
+
+
+
+  const defaultAccount = accounts?.find((account) => account?.isDefault);
+
+  const budget = await getCurrentBudget(defaultAccount?._id);
 
   return (
     <div className="px-5">
+      <BudgetCard
+        initialBudget={budget?.budget}
+        currentExpenses={budget?.currentExpenses || 0}
+      />
+
+      <DashboardOverview
+        accounts={accounts || []}
+        transactions={transactions.data || []}
+      />
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         <CreateAccountDrawer>
           <Card className="hover:shadow-md transition-shadow cursor-pointer border-dashed">
