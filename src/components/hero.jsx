@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import Image from "next/image";
-import Reveal from "./Revel";
+import Reveal from "./Reveal";
 import dashBoard from "../../public/dashboard.png";
 
 const HeroSection = () => {
