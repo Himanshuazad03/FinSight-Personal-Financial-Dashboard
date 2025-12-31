@@ -10,6 +10,7 @@ import Reveal from "@/components/Revel";
 import { Card } from "@/components/ui/card";
 import { CardContent } from "@/components/ui/card";
 import Link from "next/link";
+import Anni from "../../public/Anni.png"
 
 export default function Home() {
   return (
@@ -124,7 +125,7 @@ export default function Home() {
         </Reveal>
 
         <Reveal delay={0.2}>
-          <section className="py-24">
+          <section className="py-22">
             <div className="container mx-auto px-4">
               {/* Section Header */}
               <div className="max-w-3xl mx-auto text-center mb-16">
@@ -171,7 +172,7 @@ export default function Home() {
         </Reveal>
 
         <Reveal delay={0.2}>
-          <section className="py-16 bg-slate-50 border-t">
+          <section className="py-14 bg-slate-50 border-t">
             <div className="container mx-auto px-4">
               <div className="max-w-4xl mx-auto text-center">
                 <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight mb-6 text-gray-900">
@@ -189,18 +190,7 @@ export default function Home() {
                       Open Dashboard
                     </Button>
                   </Link>
-
-                  <Link href="/#features">
-                    <Button size="lg" variant="outline" className="px-10">
-                      Explore Features
-                    </Button>
-                  </Link>
                 </div>
-
-                <p className="text-sm text-gray-500">
-                  Demo-friendly • Secure authentication • Built as a full-stack
-                  project
-                </p>
               </div>
             </div>
           </section>

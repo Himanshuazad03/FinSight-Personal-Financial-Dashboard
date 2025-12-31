@@ -33,7 +33,6 @@ const COLORS = [
 ];
 
 export function DashboardOverview({ accounts, transactions }) {
-
   const [selectedAccountId, setSelectedAccountId] = useState(
     accounts.find((a) => a.isDefault)?._id || accounts[0]?._id
   );
@@ -42,7 +41,6 @@ export function DashboardOverview({ accounts, transactions }) {
   const accountTransactions = transactions.filter(
     (t) => t.accountId === selectedAccountId
   );
-
 
   // Get recent transactions (last 5)
   const recentTransactions = accountTransactions
@@ -77,6 +75,44 @@ export function DashboardOverview({ accounts, transactions }) {
       value: amount,
     })
   );
+
+  const totalExpense = pieChartData.reduce((sum, item) => sum + item.value, 0);
+
+  const pieDataWithPercent = pieChartData.map((item) => ({
+    ...item,
+    percent: ((item.value / totalExpense) * 100).toFixed(0),
+  }));
+
+  const renderPercentageLabel = ({
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    percent,
+  }) => {
+    const radius = innerRadius + (outerRadius - innerRadius) / 2;
+    const RADIAN = Math.PI / 180;
+
+    console.log(percent);
+
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+    return (
+      <text
+        x={x}
+        y={y}
+        fill="#fff"
+        textAnchor="middle"
+        dominantBaseline="central"
+        fontSize={12}
+        fontWeight="600"
+      >
+        {`${percent}%`}
+      </text>
+    );
+  };
 
   return (
     <div className="grid gap-4 md:grid-cols-2 mb-10">
@@ -136,7 +172,7 @@ export function DashboardOverview({ accounts, transactions }) {
                       ) : (
                         <ArrowUpRight className="mr-1 h-4 w-4" />
                       )}
-                      ${transaction.amount.toFixed(2)}
+                      ₹{transaction.amount.toFixed(2)}
                     </div>
                   </div>
                 </div>
@@ -153,42 +189,69 @@ export function DashboardOverview({ accounts, transactions }) {
             Monthly Expense Breakdown
           </CardTitle>
         </CardHeader>
-        <CardContent className="p-0 pb-5">
-          {pieChartData.length === 0 ? (
+        <CardContent className="pb-5">
+          {pieDataWithPercent.length === 0 ? (
             <p className="text-center text-muted-foreground py-4">
               No expenses this month
             </p>
           ) : (
-            <div className="h-[300px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={pieChartData}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={80}
-                    fill="#8884d8"
-                    dataKey="value"
-                    label={({ name, value }) => `${name}: $${value.toFixed(2)}`}
+            <div className="flex flex-col lg:flex-row items-center gap-6">
+              {/* Pie Chart */}
+              <div className="h-[260px] w-[260px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={pieDataWithPercent}
+                      dataKey="value"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={100}
+                      innerRadius={60}
+                      labelLine={false}
+                      label={renderPercentageLabel}
+                    >
+                      {pieDataWithPercent.map((entry, index) => (
+                        <Cell
+                          key={`cell-₹{index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                    </Pie>
+
+                    <Tooltip
+                      formatter={(value) => `₹${value.toFixed(2)}`}
+                      contentStyle={{
+                        backgroundColor: "hsl(var(--popover))",
+                        border: "1px solid hsl(var(--border))",
+                        borderRadius: "8px",
+                      }}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+
+              {/* Custom Legend (like image) */}
+              <div className="flex flex-col gap-3 text-sm">
+                {pieDataWithPercent.map((item, index) => (
+                  <div
+                    key={item.name}
+                    className="flex items-center justify-between gap-6 min-w-[180px]"
                   >
-                    {pieChartData.map((entry, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={COLORS[index % COLORS.length]}
+                    <div className="flex items-center gap-2">
+                      <span
+                        className="h-3 w-3 rounded-full"
+                        style={{
+                          backgroundColor: COLORS[index % COLORS.length],
+                        }}
                       />
-                    ))}
-                  </Pie>
-                  <Tooltip
-                    formatter={(value) => `$${value.toFixed(2)}`}
-                    contentStyle={{
-                      backgroundColor: "hsl(var(--popover))",
-                      border: "1px solid hsl(var(--border))",
-                      borderRadius: "var(--radius)",
-                    }}
-                  />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
+                      <span className="text-muted-foreground">{item.name}</span>
+                    </div>
+                    <span className="font-medium">
+                      ₹{item.value.toFixed(2)}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </CardContent>

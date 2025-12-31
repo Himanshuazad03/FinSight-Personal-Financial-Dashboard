@@ -411,7 +411,7 @@ const AccountTable = ({ accountId }) => {
                       color: transaction.type === "INCOME" ? "green" : "red",
                     }}
                   >
-                    {transaction.type === "INCOME" ? "+" : "-"}$
+                    {transaction.type === "INCOME" ? "+" : "-"}₹
                     {transaction.amount.toFixed(2)}
                   </TableCell>
                   <TableCell>

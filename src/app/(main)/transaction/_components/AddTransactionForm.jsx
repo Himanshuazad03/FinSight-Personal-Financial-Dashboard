@@ -199,7 +199,7 @@ const AddTransactionForm = ({
             <SelectContent>
               {accounts.map((acc) => (
                 <SelectItem key={acc._id} value={acc._id}>
-                  {acc.name} (${parseFloat(acc.balance).toFixed(2)})
+                  {acc.name} (₹{parseFloat(acc.balance).toFixed(2)})
                 </SelectItem>
               ))}
 

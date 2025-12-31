@@ -8,7 +8,7 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@clerk/nextjs/server";
 import mongoose from "mongoose";
 import serializeTransaction from "@/app/lib/serializeTransaction";
-import aj from "@/lib/arcjet";
+import { transactionLimiter, receiptScanLimiter } from "@/lib/arcjet";
 import { request } from "@arcjet/next";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
@@ -114,7 +114,10 @@ export async function createTransaction(data) {
 
     const req = await request();
 
-    const decision = await aj.protect(req, { userId, requested: 1 });
+    const decision = await transactionLimiter.protect(req, {
+      userId,
+      requested: 1,
+    });
 
     if (decision.isDenied()) {
       if (decision.reason.isRateLimit()) {
@@ -189,6 +192,32 @@ function calculateNextRecurringDate(startDate, interval) {
 
 export async function ReceiptScanning(file) {
   try {
+    const { userId } = await auth();
+
+    if (!userId) throw new Error("User not found");
+    const req = await request();
+
+    const decision = await receiptScanLimiter.protect(req, {
+      userId,
+      requested: 1,
+    });
+
+    if (decision.isDenied()) {
+      if (decision.reason.isRateLimit()) {
+        const { remaning, reset } = decision.reason;
+        console.log({
+          code: "RATE LIMIT EXCEED",
+          details: {
+            remaning,
+            resetInSeconds: reset,
+          },
+        });
+
+        throw new Error("Daily Limit Exceeded, Try again Tomorrow.");
+      }
+      throw new Error("Unauthorized");
+    }
+
     const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
     const arrayBuffer = await file.arrayBuffer();
@@ -198,7 +227,7 @@ export async function ReceiptScanning(file) {
       Analyze this receipt image and extract the following information in JSON format:
       - Total amount (just the number)
       - Date (in ISO format)
-      - Description or items purchased (brief summary)
+      - Description or items purchased Starts with Paid for (Very brief summary)
       - Merchant/store name
       - Suggested category (one of: housing,transportation,groceries,utilities,entertainment,food,shopping,healthcare,education,personal,travel,insurance,gifts,bills,other-expense )
       
@@ -249,7 +278,7 @@ export async function ReceiptScanning(file) {
     }
   } catch (error) {
     console.error("Error scanning receipt:", error);
-    throw new Error("Failed to scan receipt");
+    throw new Error(error);
   }
 }
 

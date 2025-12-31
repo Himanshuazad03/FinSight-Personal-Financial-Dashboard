@@ -3,7 +3,7 @@ import { SignedOut, SignInButton, SignedIn, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import logo from "../../public/logo (1).png";
+import logo from "../../public/logo.png";
 import { Button } from "@/components/ui/button";
 import { LayoutDashboard, PenBoxIcon } from "lucide-react";
 import { checkUser } from "@/lib/checkUser";
@@ -19,7 +19,7 @@ async function Header() {
             width={100}
             height={100}
             alt="logo"
-            className=" h-8 sm:h-12 object-contain w-auto"
+            className=" h-8 sm:h-14 object-contain w-auto"
           />
         </Link>
         <div className="flex items-center space-x-4">

@@ -7,6 +7,8 @@ import {
   Zap,
 } from "lucide-react";
 
+
+
 // Stats Data
 export const statsData = [
   {
@@ -93,39 +95,20 @@ export const howItWorksData = [
 export const testimonialsData = [
   {
     name: "Animesh Porwal",
-    image: "https://randomuser.me/api/portraits/men/32.jpg",
+    image: "/anni.png",
     quote:
       "FinSight helped me clearly track my monthly expenses and understand where I was overspending. The insights made budgeting much easier without feeling overwhelming.",
   },
   {
     name: "Koushik Pali",
-    image: "https://randomuser.me/api/portraits/women/45.jpg",
+    image: "/koushik.png",
     quote:
       "I used to manually note expenses in different apps. With FinSight, everything is organized in one place, and the receipt scanning feature saves a lot of time.",
   },
   {
     name: "Harshit Yadav",
-    image: "https://randomuser.me/api/portraits/men/54.jpg",
+    image: "/harshit.png",
     quote:
       "The budget alerts and spending breakdowns helped me control unnecessary expenses. I’ve already recommended FinSight to a few friends who struggle with tracking money.",
   },
-  {
-    name: "Harshil Jain",
-    image: "https://randomuser.me/api/portraits/women/68.jpg",
-    quote:
-      "Seeing my expenses broken down clearly helped me realize how small daily spends add up. FinSight made it easier to stay mindful without constantly tracking everything manually.",
-  },
-  {
-  name: "Priyanshu Azad",
-  image: "https://randomuser.me/api/portraits/men/61.jpg",
-  quote:
-    "Before using FinSight, I had no clear idea where my money was going each month. The visual breakdown helped me spot unnecessary spending quickly and adjust my budget.",
-},
-{
-  name: "Harsh Yadav",
-  image: "https://randomuser.me/api/portraits/women/52.jpg",
-  quote:
-    "What I liked most was how simple everything felt. I didn’t need to learn complex tools—just add transactions and the dashboard made sense immediately.",
-}
-
 ];

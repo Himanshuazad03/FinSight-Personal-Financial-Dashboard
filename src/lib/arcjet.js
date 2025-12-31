@@ -1,16 +1,28 @@
 import arcjet, { tokenBucket } from "@arcjet/next";
 
-const aj = arcjet({
+export const transactionLimiter = arcjet({
   key: process.env.ARCJET_KEY,
   characteristics: ["userId"],
   rules: [
     tokenBucket({
       mode: "LIVE",
-      refillRate: 10, // Refill 5 tokens per interval
-      interval: 3600, // Refill every 10 seconds
+      refillRate: 10,       // 10 tx/hour
+      interval: 3600,       // 1 hour
       capacity: 10,
     }),
   ],
 });
 
-export default aj;
+export const receiptScanLimiter = arcjet({
+  key: process.env.ARCJET_KEY,
+  characteristics: ["userId"],
+  rules: [
+    tokenBucket({
+      mode: "LIVE",
+      refillRate: 5,        // 5 tokens
+      interval: 86400,      // 24 hours (in seconds)
+      capacity: 5,          // max 5 scans stored
+    }),
+  ],
+});
+

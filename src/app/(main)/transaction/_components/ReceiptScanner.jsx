@@ -16,6 +16,7 @@ const ReceiptScanner = ({ onScanComplete }) => {
     loading: scanReceiptLoading,
     fn: scanReceiptFn,
     data: scannedData,
+    error,
   } = useFetch(ReceiptScanning);
 
 
@@ -34,6 +35,13 @@ const ReceiptScanner = ({ onScanComplete }) => {
       toast.success("Receipt scanned successfully");
     }
   }, [scanReceiptLoading, scannedData]);
+
+  useEffect(()=>{
+    if(error)
+    {
+      toast.error(error.message);
+    }
+  },[error])
 
   return (
     <div className="flex items-center gap-4">

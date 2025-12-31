@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import Reveal from "./Revel";
-import dashBoard from "../../public/dashBoard.png";
+import dashBoard from "../../public/dashboard.png";
 
 const HeroSection = () => {
   return (
@@ -44,11 +44,6 @@ const HeroSection = () => {
             <Link href="/dashboard">
               <Button size="lg" className="px-10 cursor-pointer">
                 Get Started
-              </Button>
-            </Link>
-            <Link href="/#features">
-              <Button size="lg" variant="outline" className="px-10 cursor-pointer">
-                Explore Features
               </Button>
             </Link>
           </div>

@@ -72,7 +72,7 @@ const AccountCard = ({ account }) => {
       <Link href={`/account/${_id}`} className="block">
         <CardContent className="pt-0 pb-4">
           <div className="text-3xl font-semibold tracking-tight">
-            ${parseFloat(balance).toFixed(2)}
+            ₹{parseFloat(balance).toFixed(2)}
           </div>
 
           <div className="mt-4 flex justify-between text-sm text-muted-foreground">
