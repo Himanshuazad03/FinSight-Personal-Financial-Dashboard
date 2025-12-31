@@ -52,7 +52,7 @@ const HeroSection = () => {
         <Reveal delay={0.3}>
           <div className="rounded-xl border bg-white shadow-2xl p-2 max-w-6xl mx-auto">
             <Image
-              src="/dashboard.png"
+              src="/dashBoard.png"
               alt="Dashboard"
               width={1200}
               height={700}
