@@ -10,7 +10,7 @@ import Reveal from "@/components/Reveal";
 import { Card } from "@/components/ui/card";
 import { CardContent } from "@/components/ui/card";
 import Link from "next/link";
-import Anni from "../../public/Anni.png";
+
 
 export default function Home() {
   return (
