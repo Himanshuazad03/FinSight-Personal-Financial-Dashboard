@@ -87,7 +87,6 @@ const AddTransactionForm = ({
     error: transactionError,
   } = useFetch(editMode ? updateTransaction : createTransaction);
 
-  console.log("Result is",transactionResult)
 
   const type = watch("type");
   const isRecurring = watch("isRecurring");

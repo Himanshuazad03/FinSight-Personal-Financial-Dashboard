@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
 
 export const useFetch = (cb) => {
   const [loading, setLoading] = useState(false);

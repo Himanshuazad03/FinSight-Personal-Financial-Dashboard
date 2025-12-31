@@ -19,6 +19,7 @@ const ReceiptScanner = ({ onScanComplete }) => {
     error,
   } = useFetch(ReceiptScanning);
 
+
   const handleReceiptScan = async (file) => {
     if (file.size > 5 * 1024 * 1024) {
       toast.error("File size should be less than 5MB");
@@ -29,17 +30,17 @@ const ReceiptScanner = ({ onScanComplete }) => {
   };
 
   useEffect(() => {
-    if (!scannedData) return;
+    if (scannedData && !scanReceiptLoading) {
+      onScanComplete(scannedData.data);
+    }
+  }, [scanReceiptLoading, scannedData]);
 
-    onScanComplete(scannedData.data);
-    toast.success("Receipt scanned successfully");
-  }, [scannedData]);
-
-  useEffect(() => {
-    if (error) {
+  useEffect(()=>{
+    if(error)
+    {
       toast.error(error.message);
     }
-  }, [error]);
+  },[error])
 
   return (
     <div className="flex items-center gap-4">
