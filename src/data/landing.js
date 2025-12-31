@@ -95,7 +95,7 @@ export const howItWorksData = [
 export const testimonialsData = [
   {
     name: "Animesh Porwal",
-    image: "/anni.png",
+    image: "/Anni.png",
     quote:
       "FinSight helped me clearly track my monthly expenses and understand where I was overspending. The insights made budgeting much easier without feeling overwhelming.",
   },
