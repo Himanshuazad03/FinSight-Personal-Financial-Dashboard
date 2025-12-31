@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import Reveal from "./Reveal";
-import dashboard from "../../public/dashboard.png";
+
 
 const HeroSection = () => {
   return (
@@ -53,7 +53,7 @@ const HeroSection = () => {
         <Reveal delay={0.3}>
           <div className="rounded-xl border bg-white shadow-2xl p-2 max-w-6xl mx-auto">
             <Image
-              src={dashboard}
+              src="/dashboard.png"
               alt="Dashboard"
               className="w-full h-full object-contain"
             />
