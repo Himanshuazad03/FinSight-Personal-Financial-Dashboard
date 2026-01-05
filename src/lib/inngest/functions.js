@@ -7,11 +7,13 @@ import { sendEmail } from "@/actions/sendEmail";
 import Account from "@/models/Account";
 import User from "@/models/User";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { connectDB } from "@/dbConfig/db";
 
 export const budgetAlert = inngest.createFunction(
   { name: "budget-alert" },
   { cron: "0 */4 * * *" },
   async ({ step }) => {
+    await connectDB();
     const budgets = await step.run("get-current-budget", async () => {
       return await Budget.find().populate({
         path: "userId",
@@ -112,6 +114,7 @@ export const processRecurringTransaction = inngest.createFunction(
   { event: "process-recurring-transaction" },
 
   async ({ event, step }) => {
+    await connectDB();
     const transaction = await step.run("get-transaction", async () =>
       Transaction.findOne({
         _id: event.data.transactionId,
@@ -177,6 +180,7 @@ export const createRecurringTransaction = inngest.createFunction(
 
   async ({ step }) => {
     // 1️⃣ Find all due recurring transactions
+    await connectDB();
     const transactions = await step.run("find-due-recurring", async () =>
       Transaction.find({
         isRecurring: true,
@@ -277,6 +281,7 @@ export const generateMonthlyReport = inngest.createFunction(
   { cron: "0 0 1 * *" }, // runs on the first day of the month
 
   async ({ step }) => {
+    await connectDB();
     const users = await step.run("find-users", async () => {
       return await User.find({
         accounts: { $exists: true, $not: { $size: 0 } },
