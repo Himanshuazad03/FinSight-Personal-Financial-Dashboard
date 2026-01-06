@@ -56,7 +56,8 @@ export const budgetAlert = inngest.createFunction(
         }
       );
 
-      const totalExpenses = Number(expenses[0].total.$numberDecimal);
+      const totalExpenses =
+        expenses.length > 0 ? Number(expenses[0].total.$numberDecimal) : 0;
 
       const budgetAmount = Number(budget.amount.$numberDecimal);
 
