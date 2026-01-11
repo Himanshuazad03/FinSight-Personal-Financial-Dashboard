@@ -13,9 +13,27 @@ import {
 import * as React from "react";
 
 export default function BudgetAlertModern({
-  name = "",
+  name = "Himanshu Azad",
   type = "monthly-report",
-  data = {},
+  data = {
+    month: "December",
+    stats: {
+      totalIncome: 5000.123546,
+      totalExpenses: 3500,
+      byCategory: {
+        housing: 1500,
+        groceries: 600,
+        transportation: 400,
+        entertainment: 300,
+        utilities: 700,
+      },
+    },
+    insights: [
+      "Your housing expenses are 43% of your total spending - consider reviewing your housing costs.",
+      "Great job keeping entertainment expenses under control this month!",
+      "Setting up automatic savings could help you save 20% more of your income.",
+    ],
+  },
 }) {
   const remaining = data?.budgetAmount - data?.totalExpenses;
 
@@ -50,21 +68,24 @@ export default function BudgetAlertModern({
               <div style={{ ...style.statCard, marginRight: "2%" }}>
                 <Text style={style.statLabel}>Total Income</Text>
                 <Text style={style.statValuePositive}>
-                  ${data?.stats.totalIncome}
+                  ₹{data?.stats.totalIncome.toFixed(2)}
                 </Text>
               </div>
 
               <div style={{ ...style.statCard, marginRight: "2%" }}>
                 <Text style={style.statLabel}>Total Expenses</Text>
                 <Text style={style.statValueNegative}>
-                  ${data?.stats.totalExpenses}
+                  ₹{data?.stats.totalExpenses.toFixed(2)}
                 </Text>
               </div>
 
               <div style={style.statCard}>
                 <Text style={style.statLabel}>Net Balance</Text>
                 <Text style={style.statValue}>
-                  ${data?.stats.totalIncome - data?.stats.totalExpenses}
+                  ₹
+                  {(
+                    data?.stats.totalIncome - data?.stats.totalExpenses
+                  ).toFixed(2)}
                 </Text>
               </div>
             </Section>
@@ -80,8 +101,10 @@ export default function BudgetAlertModern({
                   {Object.entries(data.stats.byCategory).map(
                     ([category, amount]) => (
                       <div key={category} style={style.tableRow}>
-                        <Text style={style.tableKey}>{category}</Text>
-                        <Text style={style.tableValue}>${amount}</Text>
+                        <span style={style.tableKey}>{category}</span>
+                        <span style={style.tableValue}>
+                          ₹{amount.toFixed(2)}
+                        </span>
                       </div>
                     )
                   )}
@@ -183,7 +206,7 @@ export default function BudgetAlertModern({
               {/* CTA */}
               <Section style={styles.ctaWrapper}>
                 <Link
-                  href="http://localhost:3000/dashboard"
+                  href="https://finsight-dashboard-three.vercel.app/dashboard"
                   style={styles.ctaButton}
                 >
                   View detailed breakdown
@@ -429,19 +452,23 @@ const style = {
     borderTop: "1px solid #e5e7eb",
   },
   tableRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    padding: "10px 0",
+    width: "100%",
+    fontSize: "0", // important
+    padding: "10px",
     borderBottom: "1px solid #e5e7eb",
   },
   tableKey: {
+    display: "inline-block",
+    width: "70%",
     fontSize: "14px",
     color: "#374151",
   },
   tableValue: {
+    display: "inline-block",
+    width: "30%",
     fontSize: "14px",
-    fontWeight: "500",
-    color: "#111827",
+    fontWeight: "400",
+    textAlign: "right",
   },
 
   insight: {
